@@ -1,0 +1,101 @@
+\section{Methods}
+%\begin{itemize}
+%\item Binary neuron model
+%\item Rodent V1 layer 2/3 model with bidirectionality 
+%\end{itemize}
+\textit{Model of rodent layer 2/3 with excess bidirectionality}
+The neurons in the Layer 2/3 of rodents show strong orientation selectivity (OS) already at eye opening. Neurons in this layer are arranged in a salt and pepper fashion so that each neurons integrated inputs from neurons of all preferred orientations(PO) (i.e the rodent V1 lacks an orientation map or functional architecture). To investigate the effect of bidirectionality on the spiking irregularity and functional properties of the cortex, we used a modified version of a conductance based spiking model of rodent layer 2/3 developed in Hansel and Vreeswijk 2012 \cite{Hansel2012}. They showed that strong OS does not require a functional architecture, provided that the cortex is operating in the balaned regime.
+
+\textbf{\textit{Single neuron dynamics:}}
+The single neuron dynamics are described by an one compartment conductance based model with sodium and potassium currents responsible for spike generation \cite{wang1996}. The excitatory neurons have an additional adaptation current.
+
+\begin{equation}
+\begin{split}
+C_{m} \frac{dV_{i}^{A}}{dt} = -I_{L, i}^{A} -I_{Na, i}^{A}-I_{K, i}^{A} -I_{adapt, i}^{A}\  \\ + I_{rec, i}^{A} + I_{ff, i}^{A} \,\,\;\; (A = E, I) 
+\end{split}
+\end{equation}
+
+\begin{align}
+I_{L, i}^{A} &= g_{L}^{A} (V_{i}^{A} - V_{L}) \\
+I_{Na, i}^{A} &= g_{Na}^{A} m_{\infty}^{3} h (V_{i}^{A} - V_{Na}) \\
+I_{K, i}^{A} &= g_{K}^{A} n^{4} (V_{i}^{A} - V_{K}) \\
+I_{adapt, i}^{A} &= g_{adapt}^{A} z (V_{i}^{A} - V_{K}) \\
+I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B}) \\
+I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B}) \\
+g_{i}^{AB} &= \bar{g}^{AB} \sum_{j} C^{AB}_{ij} \sum_{k} S(t - t^{B}_{j, k}) \\
+I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E})
+\end{align}
+
+\begin{equation} 
+\begin{split}
+& g_{ff, i}^{A} (\theta, t)  = \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} \;\; \times \\
+& \int\limits_{-\infty}^{t}  \left( R_{i, tot}^{A} (\theta, t') + \sqrt{R_{i, tot}^{A} (\theta, t')}  \eta^{A}_{i}(t) \right) e^{-(t' - t) /\tau_{syn}} dt' 
+\end{split}
+\end{equation}
+
+%\begin{equation}
+%\begin{split}
+%R^{A}_{i, tot} (\theta, t) &= c_{ff} K \left[ R_{0}^{ff} + R_{1}^{ff}(C)] \right] + \sqrt{c_{ff} K} R_{0}^{ff} x_{i}^{A} + \sqrt{c_{ff} K} R_{1}^{ff}(C) x \\
+%&\left[x_i^A + \xi_A z^A_{1, i} cos2(\theta - \Delta_i^A) + \mu_A z^A_{2, i} cos(wt - \phi^A_{1, i}) + \frac{\xi_A \mu_A}{2} \{ z^A_{3, i}cos(2\theta + wt - \phi^A_{2, i}) + z^A_{4, i}cos(2\theta - wt + \phi^A_{3, i})} \right]
+%\end{split}
+%\end{equation}
+%g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} K_{ff} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) \right)
+%  g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} \int_{-\infty}^{t} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) e^{-(t' - t) /\tau_{syn}} dt' \right)
+%I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B})
+%, \;\; g_{i}^{AB} = \bar{g}^{AB} \sum_{j} C^{AB}_{ij} \sum_{k}S(t - t^{B}_{j, k}) 
+%I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E}) 
+
+\textbf{\textit{Generating excess bidirectionality in the connectivity matrix:}}
+%In an Erdös-Rényi network the number of bidirectional network is $K^{2}/N$ on average
+To generate the connectivity matrix with an excess bidirectionality of $p$, a neuron $i$ from population $A$ and neuron $j$ from population $B$  were connected reciprocally with a  probability of $p_{ij}^{AB} = p * \frac{K}{N_{B}} + (1 - p) * \frac{K^2}{N_{B}^2}$. 
+Unidirectional connections were  made with a probablity $p_{ij}^{AB}  = 2 * (1 - p) * \frac{K}{N_{B}} * (1 -  \frac{K}{N_{B}})$. This gives a connectivity matrix with each neuron receiving $K$ inputs on average with $pK$ number of bidirectional connections. Whereas, a random network has $\frac{K^2}{N}$ bidirectional connections on average.
+
+\textbf{\textit{Fano factor:}}
+Fano factor(FF) for a neuron is defined as,\\
+\begin{equation}
+FF = \frac{Var[N_{k}]}{E[N_{k}]},
+\end{equation}
+where $N_{k}$ is the number of spikes in trial $k$. \\
+Fano factor was determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials.
+
+\textbf{\textit{Autocorrelation (AC):}}
+Given a spike train $S(t) = \sum_{k} \delta(t - t^k)$, the 
+autocorrelation function is defined as, \\
+\begin{equation}
+C(\tau) = \left\langle S(t) S(t + \tau) \right\rangle _ {t},
+\end{equation}
+where $\left\langle \cdot \right\rangle _ {t}$ is the average over time. The peak at zero was removed and the AC was normalized so that at long time lags it converges to the mean activity. \\
+
+%$$\left\langle f(t) \right\rangle _ {t} = \lim_{T \rightarrow \infty} \int_{-T/2}^{T/2} dt f(t)$$
+
+\textbf{\textit{Coefficient of variation ($CV$):}}
+Given a spike train with $N$ spikes occurring at times $t_{i}$, the ISIs are given by, \\
+\begin{align}
+\Delta t_{i} &= t_{i} - t_{i-1}
+\end{align}
+%CV = \frac{\sigma_{ISI}}{\mu_{ISI}}
+$CV$ is defined as: \\
+\begin{align}
+CV &= \frac{\sqrt{Var[\Delta t_{i}]}}{E[\Delta t_{i}]}
+\end{align}
+
+For a renewal process, FF is given by, 
+\begin{align}
+FF = CV^{2}
+\end{align}
+and for a stationary non-renewal process, 
+\begin{align}
+FF = CV^{2} (1 + 2 \sum_{i} SRC_{i})
+\label{ffcveq}
+\end{align}
+where $SRC_I$ is the Spearman rank order correlation coefficient of order $i$. It is computed by replacing each $ISI$ with its rank. It is a measure of serial correlations in the spike trains. Positive serial correlations increase FF and negative serial correlations reduce FF.   
+
+\textbf{\textit{Coefficient of variation 2 ($CV_2$):}}
+If a regular spike train has a slowly modulated firing rate, the CV obtained will be high even though the spike train is regular. To overcome this problem another measure, $CV_2$,  is usually adopted to quantify the intrinsic variability \cite{Holt1996}.
+
+$CV_2$ for the spike train is defined as: \\
+\begin{align}
+CV_{2} &= \left\langle 2 \frac{|\Delta t_{i+1} - \Delta t_{i}|}{\Delta t_{i+1} + \Delta t_{i}} \right\rangle_{i}
+\end{align}
+where $\left\langle \cdot \right\rangle_{i}$ stands for averaging over all the $N$ spikes.
+
