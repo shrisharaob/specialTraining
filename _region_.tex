@@ -1,32 +1,105 @@
-\message{ !name(results.tex)}
-\message{ !name(results.tex) !offset(-2) }
-\section{Results}
-Orientation selectivity(OS) has been studied extensively in cat and monkey since its discovery by Hubel and Wiesel in the primary visual cortex(V1). When presented with oriented bar stimuli, the response of the a V1 neuron increases when the bar is optimally oriented in a certain direction. In these animals, anatomically proximate neurons in the V1 have very similar preferred orientation forming orientation maps. Orientation maps  OS neurons are neatly arranged to from pinwheel-like patterns. Each pinwheel has a singularity at the center and orientation domains away from the center. Assuming connection probabilities drop with anatomical distance, neurons receive inputs mostly from neurons of the similar PO. It has been proposed that strong OS is possible only in the presence of functional connectivity. A functional connectivity where neurons with similar orientation preference have a higher probability of connection.\\
-However, strong OS has also been observed in rats, mice and squirrels. Neurons in V1(L2/3) of these rodents show strong OS without orientation maps. The OS neurons in the rodent V1 are arranged in a salt and pepper fashion where the POs of neurons are interspersed forming no discernible pattern. In addition, the evidence for functional connectivity in V1 of rodents is mixed. How can strong orientation selectivity be achieved without a functional architecture? Since there is strong OS in rodent V1 in spite of an orientation map, it was it was hypothesized that rodent V1 should posses a functional architecture. Hansel and van Vreeswijik proposed an alternative solution. They showed that strong feature selectivity can be achieved in purely random networks under very general conditions. In their model, the recurrent dynamics of the network is such that the total inhibitory and excitatory currents cancel each other. Each neuron in the network receives inputs from other neurons of different POs. Hence the the total input has a large untuned component and a comparably weak tuned part. As noted earlier, the large untuned component is dynamically suppressed and the weakly tuned input is amplified by the single neuron threshold nonlinearity. Both the excitatory and inhibitory populations exhibit strong OS. In fact, this is generic result showing that a randomy connected network of neurons with strong synapses can develop feature selectivity. Which is true only when the total exitatory and inhibitory currents that each neuron receives are approximately equal. \\ 
-% Recently, Hansel \& Vreeswijk \cite{Hansel2012} showed that a functional connectivity is not a necessary ingredient for the achievement of strong orientation selectivity. They showed that in a purely random network, strong orientation selectivity can arise provided that cortex in operating in the balanced State. In fact, this is generic result showing that a randomy connected network of neurons with strong synapses can develop feature selectivity. Which is true only when the total exitatory and inhibitory currents that each neuron recieves are approximately equal. \\ 
-The inhibitory population in the study of Hansel \& Vreeswijk \cite{Hansel2012} had tuning properties very similar to the excitatory population. This is not compatible with recent experimental results which clearly indicate that inhibitory population(PV\textsuperscript{+}) is more broadly tuned than excitatory neurons. But, here we show that this can be explained when the inhibotory neurons(PV\textsuperscript{+}) in L2/3 recieve recieve more numerous and weaker synapses from L4 than the excitatory population. This is a prediction which has to be tested in future experiments. There is already some evidence from the barrel cortex of the mouse suggesting that such a bias in the number of feedforward inputs the excitatory and inhibitory population. Hence, in all our simulations, we assumed that the inhibory population in L2/3 revieces weaker and more numerous inputs than the excitatory population($K_{ff}^{E} = 100, \; K_{ff}^{I} = 800$). This gives us mean values of Circular variance($CircVar = 1 - OSI$) that are comparable to the exprimental numbers. 
-%Although OS has been studied for over 40 years, the mechanism by which feature seletivity arises in the cortex still debated. Here is an example tuning curve from a V1 neuron of the mouse. % The neurons in the V1 of these animals are orgainzed in what is called a salt and pepper fashion, where there is no dercernable arangement of neurons according to their preferred orinetation as we had seen for the Cat. And in addtion to this fact, the evidence for fuctional connectivity in V1 of rodents is mixed. So the question that arises is 'How can strong orientation selectivity be achieved without a functional architecture?
+\message{ !name(methods.tex)}
+\message{ !name(methods.tex) !offset(-2) }
+\section{Methods}
+%\begin{itemize}
+%\item Binary neuron model
+%\item Rodent V1 layer 2/3 model with bidirectionality 
+%\end{itemize}
+\textit{Model of rodent layer 2/3 with excess bidirectionality}
+The neurons in the Layer 2/3 of rodents show strong orientation selectivity (OS) already at eye opening. Neurons in this layer are arranged in a salt and pepper fashion so that each neurons integrated inputs from neurons of all preferred orientations(PO) (i.e the rodent V1 lacks an orientation map or functional architecture). To investigate the effect of bidirectionality on the spiking irregularity and functional properties of the cortex, we used a modified version of a conductance based spiking model of rodent layer 2/3 developed in Hansel and Vreeswijk 2012 \cite{Hansel2012}. They showed that strong OS does not require a functional architecture, provided that the cortex is operating in the balaned regime.
+
+\textbf{\textit{Single neuron dynamics:}}
+The single neuron dynamics are described by an one compartment conductance based model with sodium and potassium currents responsible for spike generation \cite{wang1996}. The excitatory neurons have an additional adaptation current.
+
+\begin{equation}
+\begin{split}
+C_{m} \frac{dV_{i}^{A}}{dt} = -I_{L, i}^{A} -I_{Na, i}^{A}-I_{K, i}^{A} -I_{adapt, i}^{A}\  \\ + I_{rec, i}^{A} + I_{ff, i}^{A} \,\,\;\; (A = E, I) 
+\end{split}
+\end{equation}
+
+\begin{align}
+I_{L, i}^{A} &= g_{L}^{A} (V_{i}^{A} - V_{L}) \\
+I_{Na, i}^{A} &= g_{Na}^{A} m_{\infty}^{3} h (V_{i}^{A} - V_{Na}) \\
+I_{K, i}^{A} &= g_{K}^{A} n^{4} (V_{i}^{A} - V_{K}) \\
+I_{adapt, i}^{A} &= g_{adapt}^{A} z (V_{i}^{A} - V_{K}) \\
+I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B}) \\
+I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B}) \\
+g_{i}^{AB} &= \bar{g}^{AB} \sum_{j} C^{AB}_{ij} \sum_{k} S(t - t^{B}_{j, k}) \\
+I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E})
+\end{align}
+
+\begin{equation} 
+\begin{split}
+& g_{ff, i}^{A} (\theta, t)  = \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} \;\; \times \\
+& \int\limits_{-\infty}^{t}  \left( R_{i, tot}^{A} (\theta, t') + \sqrt{R_{i, tot}^{A} (\theta, t')}  \eta^{A}_{i}(t) \right) e^{-(t' - t) /\tau_{syn}} dt' 
+\end{split}
+\end{equation}
+
+%\begin{equation}
+%\begin{split}
+%R^{A}_{i, tot} (\theta, t) &= c_{ff} K \left[ R_{0}^{ff} + R_{1}^{ff}(C)] \right] + \sqrt{c_{ff} K} R_{0}^{ff} x_{i}^{A} + \sqrt{c_{ff} K} R_{1}^{ff}(C) x \\
+%&\left[x_i^A + \xi_A z^A_{1, i} cos2(\theta - \Delta_i^A) + \mu_A z^A_{2, i} cos(wt - \phi^A_{1, i}) + \frac{\xi_A \mu_A}{2} \{ z^A_{3, i}cos(2\theta + wt - \phi^A_{2, i}) + z^A_{4, i}cos(2\theta - wt + \phi^A_{3, i})} \right]
+%\end{split}
+%\end{equation}
+%g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} K_{ff} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) \right)
+%  g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} \int_{-\infty}^{t} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) e^{-(t' - t) /\tau_{syn}} dt' \right)
+%I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B})
+%, \;\; g_{i}^{AB} = \bar{g}^{AB} \sum_{j} C^{AB}_{ij} \sum_{k}S(t - t^{B}_{j, k}) 
+%I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E}) 
+
+\textbf{\textit{Generating excess bidirectionality in the connectivity matrix:}}
+%In an Erdös-Rényi network the number of bidirectional network is $K^{2}/N$ on average
+To generate the connectivity matrix with an excess bidirectionality of $p$, a neuron $i$ from population $A$ and neuron $j$ from population $B$  were connected reciprocally with a  probability of $p_{ij}^{AB} = p * \frac{K}{N_{B}} + (1 - p) * \frac{K^2}{N_{B}^2}$. 
+Unidirectional connections were  made with a probablity $p_{ij}^{AB}  = 2 * (1 - p) * \frac{K}{N_{B}} * (1 -  \frac{K}{N_{B}})$. This gives a connectivity matrix with each neuron receiving $K$ inputs on average with $pK$ number of bidirectional connections. Whereas, a random network has $\frac{K^2}{N}$ bidirectional connections on average.
+
+\textbf{\textit{Fano factor:}}
+Fano factor(FF) for a neuron is defined as,\\
+\begin{equation}
+FF = \frac{Var[N_{k}]}{E[N_{k}]},
+\end{equation}
+where $N_{k}$ is the number of spikes in trial $k$. \\
+Fano factor was determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials.
+
+\textbf{\textit{Autocorrelation (AC):}}
+Given a spike train $S(t) = \sum_{k} \delta(t - t^k)$, the 
+autocorrelation function is defined as, \\
+\begin{equation}
+C(\tau) = \left\langle S(t) S(t + \tau) \right\rangle _ {t},
+\end{equation}
+where $\left\langle \cdot \right\rangle _ {t}$ is the average over time. The peak at zero was removed and the AC was normalized so that at long time lags it converges to the mean activity. \\
+
+%$$\left\langle f(t) \right\rangle _ {t} = \lim_{T \rightarrow \infty} \int_{-T/2}^{T/2} dt f(t)$$
+
+\textbf{\textit{Coefficient of variation ($CV$):}}
+Given a spike train with $N$ spikes occurring at times $t_{i}$, the ISIs are given by, \\
+\begin{align}
+\Delta t_{i} &= t_{i} - t_{i-1}
+\end{align}
+%CV = \frac{\sigma_{ISI}}{\mu_{ISI}}
+$CV$ is defined as: \\
+\begin{align}
+CV &= \frac{\sqrt{Var[\Delta t_{i}]}}{E[\Delta t_{i}]}
+\end{align}
+
+For a renewal process, FF is given by, 
+\begin{align}
+FF = CV^{2}
+\end{align}
+and for a stationary non-renewal process, 
+\begin{align}
+FF = CV^{2} (1 + 2 \sum_{i} SRC_{i})
+\label{ffcveq}
+\end{align}
+where $SRC_I$ is the Spearman rank order correlation coefficient of order $i$. It is computed by replacing each $ISI$ with its rank. It is a measure of serial correlations in the spike trains. Positive serial correlations increase FF and negative serial correlations reduce FF.   
+
+\textbf{\textit{Coefficient of variation 2 ($CV_2$):}}
+If a regular spike train has a slowly modulated firing rate, the CV obtained will be high even though the spike train is regular. To overcome this problem another measure, $CV_2$,  is usually adopted to quantify the intrinsic variability \cite{Holt1996}.
+
+$CV_2$ for the spike train is defined as: \\
+\begin{align}
+CV_{2} &= \left\langle 2 \frac{|\Delta t_{i+1} - \Delta t_{i}|}{\Delta t_{i+1} + \Delta t_{i}} \right\rangle_{i}
+\end{align}
+where $\left\langle \cdot \right\rangle_{i}$ stands for averaging over all the $N$ spikes.
 
 
-
-\subsection{Numerical simulations}
-We studied the effects of bidirectionality in a conductance based model of rodent V1 L2/3 developed my Hansel and van Vreeswijk \cite{Hansel2012}. 
-% Neurons in L2/3 rodent V1 show strong OS which are arranged in a salt and pepper fashion. However in primates like Cat and Monkey, the neurons are arranged in a manner such that anatomically close by neurons have similar PO. Such an arrangement leads to the well documented orientaion maps. Thus, it was hypothesized that strong OS requires a functional architecture where neurons with similar OS are connected to each other. Since there is no strong OS in rodent V1 in spite of an orientation map, it was it was claimed that rodent V1 should posses functional architecture. Hansel and van Vreeswijik proposed an alternative solution. They showed that strong feature selectivity can be achieved in purely random networks under very general conditions. In their model, the recurrent dynamics of the network is such that the total inhibitory and excitatory currents cancel each other. Each neuron in the network recieves inputs from other neurons of different POs. Hence the the total input has a large untuned component and a comparably weak tuned part. As noted earlier, the large untuend component is dynamically suppressed and the weakly tuned input is amplified by the single neuron threshold nonlinearity. Both the excitatory and inhibitory populations exhibit strong OS. However, there is a growting concensus that PV$^{+}$ cells are broadly tuned in ordents. We discovered that, it is possible to explain broadly tuned inhibitory cells by incorporating more numerous and weaker feed-forward input to the inhibitory population. \\
-The connectivity matrix ($N \times N$)in their study was random with each neuron in the network receiving $K$ inputs on average. In such networks, there are $\frac{K^2}{N}$ bidirectional connections just by chance. Excess bidirectionality was introduced in the network such that the number of such connections were above chance level with a probability $p$, giving on average $pK$ number of bidirectional connections. The probability $p$ can be interpreted as a symettry parameter quantifying the amount of symmetry in the connectivity matrix, the value of the symmetry parameter for symmetric random matrix would be $p = 1$ and a non-symmetric random matrix will have $p = 0$. Excess bidirectionality was introduced in all the three possible combinations, i.e (i) within the Excitatory(E) population(E-to-E), (ii) within the Inhibitory(I) populations(I-to-I) and, (iii) betweeen Excitatory and Inhibitory populations(E-to-I). Using the modified model with broadly tuned inhibitory population we characterized the the spiking irregularity, fluctuations and, response properties of the L2/3 model network with excess bidirectionality. 
-%The firing rate, circular variance and Fano factor distributions were computed for each 
-% \textbf{•}case.\\
-%\emph{Spiking irregularity and fluctuations}
-Excess E-to-E bidirectionality has been observed experimentally at probabilities of (0.2- 0.3) [REFerence]. The simulations show that E-to-E bidirectionality has negligible effects even at high levels of bidirectionality (Fig. \ref{fig:e2e0} \& Fig. \ref{fig:e2e1}). The firing rate distribution for networks with bidirectional probability(p) as high as 0.8 show no noticeable change as it approximately overlaps with control(p = 0, i.e random network) condition. Similarly, tuning properties(quantified using Circular variance) and Fano factor distributions of the both the excitatory and inhibitory populations remain unchanged compared to control. \\
-In contrast to E-to-E reciprocity, adding I-to-I bidirectionality is much more efficacious in slowing down the fluctuations as is clearly seen in the population averaged AC function(Fig. \ref{fig:i2i0}). As a result the neurons become prone to fire in bursts.(Fig. \ref{fig:vmtrace})
-At experimentally observed levels of bidirectional probabilities (which is estimated to be in the range 0.2-0.3 \cite{Song2005}), the tuning properties remain unchanged (Fig. \ref{fig:i2i1}a, Fig. \ref{fig:i2i1}b).
-The population averaged Fano factor increases with increasing reciprocity(Fig. \ref{fig:i2i1}c, Fig. \ref{fig:i2i1}d). Thus, I-to-I bidirectionality slows down fluctuations and enhances response variability. However, E-to-I has the opposite effect. Fluctuations decay much faster than in a random network and Fano factor is reduced (Fig. \ref{fig:e2i0}). E-to-I bidirectionality leads to and increase in negative serial correlations in the spiking activity. As mentioned earlier, negative serial correlations reduces the Fano factor(Eq. \ref{ffcveq}). Thus,  with right probabilities of I-to-I and E-to-I reciprocity, it is possible to obtain a network where their individual effects will cancel each other. \\
-We also investigated the effect of reciprocity in the presence of slow synapses, the time constants of recurrent and feed forward synapses were increased. Fig. \ref{fig:slowsyn0} shows that slow synapses and strong I-to-I bidirectionality lead to a large increase in the decorrelation times and Fano factors.\\  A fully random network is characterized by a single stable state and is independent of initial conditions. Fig. \ref{fig:slowsyn0}e shows that steady state firing rates of all the neurons converge to nearby values even though the simulations are started with different initial conditions. Slow synapses along with large I-to-I bidirectionality results in mutistability in the networks.(Fig. \ref{fig:slowsyn0}f) shows that different initial conditions leads to the network converging to different steady states. To ensure that the this was not an effect of poor firing rate estimates, these simulations were run for longer times(250s). Hence the steady state firing rates of the neurons depends on the initial conditions.
-%A fully random network is characterized by a single ground state. Fig. \ref{fig:slowsyn0}e shows that steady state firing rates of all the neurons converge to nearby values even though the simulations are started with different initial conditions. On the other hand, a fully bidirectional network is very similar to a diluted spin glass. Thus a replica symmetry breaking (RSB) may be expected in this case. Therefore, as the level of bi-directionality is increased one can expect glassy behaviour to appear with a slowing down of the fluctuations. In the simulations this is seen in the presence of slow synapses at high levels of bidirectionality (Fig. \ref{fig:slowsyn0}f).
-Thus, we show that excess bidirectional connections between I-to-I slow down the fluctuations in the neuronal input in balanced networks. As a result, the autocorrelation of the activity decays more slowly than in the corresponding Erdös-Rényi network. Furthermore, bidirectional connections between I cells increase the Fano factor of the spike count. These phenomena are due to the small loops that the bidirectionality induces in the network architecture. Together with the relatively strong synapses in balanced networks these lead to a non-negligible effective delayed self-coupling. On the other hand E-to-I bidirectionality reduces the decorrelation time and response variability. Slow synapses and I-to-I bidirectionality lead to a further increase in decorrelation time and promote multistability.
-
-%Remarkably, bidirectional connections between I cells are more efficacious in slowing down the dynamics than those between E cells. 
-%We show that a balanced network model of rodent V1 with conductance-based spiking neurons and excess biderctionality behaves qualitatively similarly to the binary network. 
-
-
-
-\message{ !name(results.tex) !offset(-32) }
+\message{ !name(methods.tex) !offset(-105) }
