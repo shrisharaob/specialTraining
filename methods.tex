@@ -33,22 +33,46 @@ I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E})
 \end{split}
 \end{equation}
 
-%\begin{equation}
-%\begin{split}
-%R^{A}_{i, tot} (\theta, t) &= c_{ff} K \left[ R_{0}^{ff} + R_{1}^{ff}(C)] \right] + \sqrt{c_{ff} K} R_{0}^{ff} x_{i}^{A} + \sqrt{c_{ff} K} R_{1}^{ff}(C) x \\
-%&\left[x_i^A + \xi_A z^A_{1, i} cos2(\theta - \Delta_i^A) + \mu_A z^A_{2, i} cos(wt - \phi^A_{1, i}) + \frac{\xi_A \mu_A}{2} \{ z^A_{3, i}cos(2\theta + wt - \phi^A_{2, i}) + z^A_{4, i}cos(2\theta - wt + \phi^A_{3, i})} \right]
-%\end{split}
-%\end{equation}
+\begin{equation}
+\begin{split}
+%& R^{A}_{i, tot} (\theta, t) &= c_{ff} K \left[ R_{0}^{ff} + R_{1}^{ff}(C)] \right] + \sqrt{c_{ff} K} R_{0}^{ff} x_{i}^{A} + \sqrt{c_{ff} K} R_{1}^{ff}(C) x \\
+%& \left[x_i^A + \xi_A z^A_{1, i} cos2(\theta - \Delta_i^A) + \mu_A z^A_{2, i} cos(wt - \phi^A_{1, i}) + \frac{\xi_A \mu_A}{2} \{ z^A_{3, i}cos(2\theta + wt - \phi^A_{2, i}) + z^A_{4, i}cos(2\theta - wt + \phi^A_{3, i}) } \right]
+\end{split}
+\end{equation}
+
+
 %g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} K_{ff} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) \right)
 %  g_{ff, i}^{A} (\theta, t) &= \frac{\bar{g}^{A}_{ff}}{\tau_{syn}} \int_{-\infty}^{t} \left( R_{i}^{A} (\theta) + \sqrt{\frac{R_{i}^{A} (\theta)}{K_{ff}}} \eta^{A}_{i}(t) e^{-(t' - t) /\tau_{syn}} dt' \right)
 %I_{rec, i}^{A} &= \sum_{B} g_{i}^{AB} (V_{i}^{A} - V_{B})
 %, \;\; g_{i}^{AB} = \bar{g}^{AB} \sum_{j} C^{AB}_{ij} \sum_{k}S(t - t^{B}_{j, k}) 
 %I_{ff, i}^{A} &= g_{ff, i}^{A} (\theta, t) (V_{i}^{A} - V_{E}) 
 
+\begin{align}
+\overline{g}_{AB} &= \frac{G_{AB}}{\sqrt{K}} \\
+\overline{g}^{A}_{ff} &= \frac{G^{A}_{ff}}{c_{ff} \sqrt{K}} \\
+c_{ff} &= \frac{K_{ff}}{K}
+\end{align}
+where, \\
+$\xi_A:$ Tuning amplitude of input from L4 to L2/3. \\
+$x^A_i, z^A_i , \Delta^A_i , \nu^A_i:$ Random variables. \\
+$\theta:$ Stimulus orientation. \\  
+$C:$ Stimulus contrast. \\
+$R_0^{ff}:$ Background firing rate. \\
+$R_1^{ff}:$ Visual response in L4. \\
+
+\textbf{\textit{Parameters used:}} 
+$g_{Na}=100mS / cm^2$, $V_{Na} = 55mV$, 
+$g_{K} = 40mS / cm^2$, $V_{K} = -80mV$,
+$V_L = -65mV$, 
+$C_m = 1 \mu F / cm^2$, 
+$g_L = 0.1 mS / cm^2$. 
+Only excitatory neurons had adaptation current with $g_{adapt} = 0.5 mS/cm^2$. The synaptic time constant $\tau_{syn}$ was set to $3ms$. $G_{EE} = 0.15$, $G_{IE} = 0.45$, $G_{EI} = 2.0$, $G_{II} = 3 \; ms \; mS / cm^2$. 
+$\xi_A = 0.8$, $C = 100$, $R_0^{ff} = 2Hz$, $R_1^{ff} = 20Hz$. \\
+
 \textbf{\textit{Generating excess bidirectionality in the connectivity matrix:}}
 %In an Erdös-Rényi network the number of bidirectional network is $K^{2}/N$ on average
 To generate the connectivity matrix with an excess bidirectionality of $p$, a neuron $i$ from population $A$ and neuron $j$ from population $B$  were connected reciprocally with a  probability of $p_{ij}^{AB} = p * \frac{K}{N_{B}} + (1 - p) * \frac{K^2}{N_{B}^2}$. 
-Unidirectional connections were  made with a probablity $p_{ij}^{AB}  = 2 * (1 - p) * \frac{K}{N_{B}} * (1 -  \frac{K}{N_{B}})$. This gives a connectivity matrix with each neuron receiving $K$ inputs on average with $pK$ number of bidirectional connections. Whereas, a random network has $\frac{K^2}{N}$ bidirectional connections on average.
+Unidirectional connections were  made with a probablity $p_{ij}^{AB}  = 2 * (1 - p) * \frac{K}{N_{B}} * (1 -  \frac{K}{N_{B}})$. This gives a connectivity matrix with each neuron receiving $K$ inputs on average with $pK$ number of bidirectional connections. Whereas, a random network has $\frac{K^2}{N}$ bidirectional connections on average. \\
 
 \textbf{\textit{Fano factor:}}
 Fano factor(FF) for a neuron is defined as,\\
@@ -56,7 +80,7 @@ Fano factor(FF) for a neuron is defined as,\\
 FF = \frac{Var[N_{k}]}{E[N_{k}]},
 \end{equation}
 where $N_{k}$ is the number of spikes in trial $k$. \\
-Fano factor was determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials.
+Fano factor was determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials. \\
 
 \textbf{\textit{Autocorrelation (AC):}}
 Given a spike train $S(t) = \sum_{k} \delta(t - t^k)$, the 
@@ -64,7 +88,19 @@ autocorrelation function is defined as, \\
 \begin{equation}
 C(\tau) = \left\langle S(t) S(t + \tau) \right\rangle _ {t},
 \end{equation}
-where $\left\langle \cdot \right\rangle _ {t}$ is the average over time. The peak at zero was removed and the AC was normalized so that at long time lags it converges to the mean activity. \\
+where $\left\langle \cdot \right\rangle _ {t}$ is the average over time. 
+We binned the spike train in $\Delta t = 1ms$ bins. Let the spike count in the $n^{th}$ bin be $N_{i}(n)$. The population averaged autocorrelation function for the was defined as, \\
+\begin{align}
+AC(\tau) &= \left[ \frac{\langle N_{i}(t)N_{i}(t + \tau) \rangle_t}{\Delta t \; T \; r_{i}} \right]_i
+\end{align}
+where,\\
+\begin{equation}
+\tau = n \Delta t,\;\; t = m \Delta t
+\end{equation}
+$T$ is the duration of simulation in seconds.\\
+$r_i$ is the mean firing rate of the $i^{th}$ neuron. \\
+$\left[ \cdot \right]_i$ is the average over the population. \\
+The peak at zero was removed and the AC normalization is such that at long time lags the AC function of individual neurons converge to their respective mean activity. \\
 
 %$$\left\langle f(t) \right\rangle _ {t} = \lim_{T \rightarrow \infty} \int_{-T/2}^{T/2} dt f(t)$$
 
@@ -88,7 +124,7 @@ and for a stationary non-renewal process,
 FF = CV^{2} (1 + 2 \sum_{i} SRC_{i})
 \label{ffcveq}
 \end{align}
-where $SRC_I$ is the Spearman rank order correlation coefficient of order $i$. It is computed by replacing each $ISI$ with its rank. It is a measure of serial correlations in the spike trains. Positive serial correlations increase FF and negative serial correlations reduce FF.   
+where $SRC_I$ is the Spearman rank order correlation coefficient of order $i$. It is computed by replacing each $ISI$ with its rank. It is a measure of serial correlations in the spike trains. Positive serial correlations increase FF and negative serial correlations reduce FF.   \\
 
 \textbf{\textit{Coefficient of variation 2 ($CV_2$):}}
 If a regular spike train has a slowly modulated firing rate, the CV obtained will be high even though the spike train is regular. To overcome this problem another measure, $CV_2$,  is usually adopted to quantify the intrinsic variability \cite{Holt1996}.
@@ -97,5 +133,10 @@ $CV_2$ for the spike train is defined as: \\
 \begin{align}
 CV_{2} &= \left\langle 2 \frac{|\Delta t_{i+1} - \Delta t_{i}|}{\Delta t_{i+1} + \Delta t_{i}} \right\rangle_{i}
 \end{align}
-where $\left\langle \cdot \right\rangle_{i}$ stands for averaging over all the $N$ spikes.
+where $\left\langle \cdot \right\rangle_{i}$ stands for averaging over all the $N$ spikes. \\
 
+\textbf{\textit{Tuning Properties:}}
+The Circular variance( = 1 - OSI) for the $k^{th}$ cell was defined as: $CircVar_{k} = 1 - \frac{|z_k|}{\sum_i r_k(i) }$\\ where,\\
+ $z_k = \sum_i r_k(i)*exp(2*j*\theta_i)$;    $j = \sqrt{-1}$\\
+ $\theta_i = 2i\pi/8$;    $i \in \{0,1, ..., 7\}$\\
+ $r_k(i)$ is the firing rate of the $k^{th}$ cell at stimulus orientation $\theta_{i}$.\\
