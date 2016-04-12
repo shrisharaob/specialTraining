@@ -1,9 +1,7 @@
 \section{Methods}
 \textit{Model of rodent layer 2/3 with excess bidirectionality}
 The neurons in the Layer 2/3 of rodents show strong orientation selectivity (OS) already at eye opening. Neurons in this layer are arranged in a salt and pepper fashion so that each neurons integrated inputs from neurons of all preferred orientations(PO) (i.e the rodent V1 lacks an orientation map or functional architecture). To investigate the effect of bidirectionality on the spiking irregularity and functional properties of the cortex, we used a modified version of a conductance based spiking model of rodent layer 2/3 developed in Hansel and Vreeswijk 2012 \cite{Hansel2012}. They showed that strong OS does not require a functional architecture, provided that the cortex is operating in the balaned regime.
-
-
-%The neurons were arranged on two dimensional surface where the connection probabilities between neurons were only dependent on anatomical distance within the surface. L4 neurons were assumed to be OS and L2/3 neurons received feedforward inputs from randomly selected L4 neurons with different POs. Hence the the total input that each L2/3 neurons receives has a large untuned component and a comparably weak tuned part. In the model, the recurrent dynamics of the network is such that the total inhibitory and excitatory currents cancel each other. Hence, the large untuned component is dynamically suppressed and the weakly tuned input is amplified by the single neuron threshold rendering the neurons in the network OS. \\
+The neurons in the model were arranged on two dimensional surface where the connection probabilities between neurons were only dependent on anatomical distance within the surface. L4 neurons were assumed to be OS and L2/3 neurons received feedforward inputs from randomly selected L4 neurons with different POs. Hence the the total input that each L2/3 neurons receives has a large untuned component and a comparably weak tuned part. In the model, the recurrent dynamics of the network is such that the total inhibitory and excitatory currents cancel each other. Hence, the large untuned component is dynamically suppressed and the weakly tuned input is amplified by the single neuron threshold rendering the neurons in the network OS. \\
 
 
 \textbf{\textit{Single neuron dynamics:}}
@@ -67,7 +65,8 @@ $V_L = -65mV$,
 $C_m = 1 \mu F / cm^2$, 
 $g_L = 0.1 mS / cm^2$. 
 Only excitatory neurons had adaptation current with $g_{adapt} = 0.5 mS/cm^2$. The synaptic time constant $\tau_{syn}$ was set to $3ms$. $G_{EE} = 0.15$, $G_{IE} = 0.45$, $G_{EI} = 2.0$, $G_{II} = 3 \; ms \; mS / cm^2$. 
-$\xi_A = 0.8$, $C = 100$, $R_0^{ff} = 2Hz$, $R_1^{ff} = 20Hz$. \\
+$\xi_A = 0.8$, $C = 100$, $R_0^{ff} = 2Hz$, $R_1^{ff} = 20Hz$. 
+$K = 500, \; K_{ff}^{E} = 100, \; K_{ff}^{I} = 800$. \\
 
 \textbf{\textit{Generating excess bidirectionality in the connectivity matrix:}}
 %In an Erdös-Rényi network the number of bidirectional network is $K^{2}/N$ on average
@@ -80,7 +79,7 @@ Fano factor(FF) for a neuron is defined as,\\
 FF = \frac{Var[N_{k}]}{E[N_{k}]},
 \end{equation}
 where $N_{k}$ is the number of spikes in trial $k$. \\
-Fano factor was determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials. \\
+We repeated the simulation with different initial conditions while keeping the input stimulus fixed. The Fano factor was then determined for all neurons by computing the mean spike count and spike count variance upon repeated stimulus presentation over hundred simulated trials. \\
 
 \textbf{\textit{Autocorrelation (AC):}}
 Given a spike train $S(t) = \sum_{k} \delta(t - t^k)$, the 
